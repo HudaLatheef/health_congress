@@ -127,7 +127,7 @@ class _LoginpageState extends State<Loginpage> {
                         style: TextStyle(color: Colors.white.withOpacity(.88), fontSize: 16.sp, height: 1.3, fontWeight: FontWeight.w500),
                       ),
 
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 5.h),
 
                       Expanded(
                         child: Container(
@@ -142,160 +142,162 @@ class _LoginpageState extends State<Loginpage> {
                               BoxShadow(color: Colors.black.withOpacity(.20), blurRadius: 28.r, offset: Offset(0, 14.h)),
                             ],
                           ),
-                          child: Form(
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                          child: SingleChildScrollView(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Welcome Back",
+                                              style: TextStyle(color: Loginpage.textDark, fontSize: 24.sp, fontWeight: FontWeight.w900),
+                                            ),
+                                            Text(
+                                              "Sign in to continue your congress experience",
+                                              style: TextStyle(color: const Color(0xFF6D7895), fontSize: 12.sp, height: 1.35, fontWeight: FontWeight.w500),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 54.w,
+                                        height: 54.w,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(20.r),
+                                          gradient: const LinearGradient(colors: [Color(0xFF35A7FF), Color(0xFF063BCE)]),
+                                        ),
+                                        child: Icon(Icons.health_and_safety_rounded, color: Colors.white, size: 30.sp),
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 10.h),
+
+                                  _PremiumTextField(
+                                    controller: emailController,
+                                    hint: "Enter your email",
+                                    icon: Icons.person_outline_rounded,
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value == null || value.trim().isEmpty) {
+                                        return "Please enter your email";
+                                      }
+
+                                      final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                                      if (!emailRegex.hasMatch(value.trim())) {
+                                        return "Please enter a valid email";
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+
+                                  SizedBox(height: 10.h),
+
+                                  _PremiumTextField(
+                                    controller: passwordController,
+                                    hint: "Enter your password",
+                                    icon: Icons.lock_outline_rounded,
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value == null || value.trim().isEmpty) {
+                                        return "Please enter your password";
+                                      }
+
+                                      if (value.trim().length < 6) {
+                                        return "Password must be at least 6 characters";
+                                      }
+
+                                      return null;
+                                    },
+                                  ),
+
+                                  SizedBox(height: 10.h),
+
+                                  DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(18.r),
+                                      gradient: const LinearGradient(colors: [Color(0xFF1017C9), Color(0xFF0078FF), Color(0xFF22C8F7)]),
+                                    ),
+                                    child: ElevatedButton(
+                                      onPressed: _signIn,
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                        backgroundColor: Colors.transparent,
+                                        shadowColor: Colors.transparent,
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.r)),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Welcome Back",
-                                            style: TextStyle(color: Loginpage.textDark, fontSize: 24.sp, fontWeight: FontWeight.w900),
+                                            "Sign In",
+                                            style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w800),
                                           ),
-                                          Text(
-                                            "Sign in to continue your congress experience",
-                                            style: TextStyle(color: const Color(0xFF6D7895), fontSize: 12.sp, height: 1.35, fontWeight: FontWeight.w500),
-                                          ),
+                                          SizedBox(width: 14.w),
+                                          Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 21.sp),
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      width: 54.w,
-                                      height: 54.w,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20.r),
-                                        gradient: const LinearGradient(colors: [Color(0xFF35A7FF), Color(0xFF063BCE)]),
-                                      ),
-                                      child: Icon(Icons.health_and_safety_rounded, color: Colors.white, size: 30.sp),
-                                    ),
-                                  ],
-                                ),
-
-                                SizedBox(height: 20.h),
-
-                                _PremiumTextField(
-                                  controller: emailController,
-                                  hint: "Enter your email",
-                                  icon: Icons.person_outline_rounded,
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value == null || value.trim().isEmpty) {
-                                      return "Please enter your email";
-                                    }
-
-                                    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-
-                                    if (!emailRegex.hasMatch(value.trim())) {
-                                      return "Please enter a valid email";
-                                    }
-
-                                    return null;
-                                  },
-                                ),
-
-                                SizedBox(height: 12.h),
-
-                                _PremiumTextField(
-                                  controller: passwordController,
-                                  hint: "Enter your password",
-                                  icon: Icons.lock_outline_rounded,
-                                  obscureText: true,
-                                  validator: (value) {
-                                    if (value == null || value.trim().isEmpty) {
-                                      return "Please enter your password";
-                                    }
-
-                                    if (value.trim().length < 6) {
-                                      return "Password must be at least 6 characters";
-                                    }
-
-                                    return null;
-                                  },
-                                ),
-
-                                SizedBox(height: 18.h),
-
-                                DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18.r),
-                                    gradient: const LinearGradient(colors: [Color(0xFF1017C9), Color(0xFF0078FF), Color(0xFF22C8F7)]),
                                   ),
-                                  child: ElevatedButton(
-                                    onPressed: _signIn,
-                                    style: ElevatedButton.styleFrom(
-                                      elevation: 0,
-                                      backgroundColor: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.r)),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Sign In",
-                                          style: TextStyle(color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w800),
+
+                                  SizedBox(height: 10.h),
+
+                                  Row(
+                                    children: [
+                                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                        child: Text(
+                                          "OR CONTINUE WITH",
+                                          style: TextStyle(color: Colors.grey.shade600, fontSize: 10.sp, fontWeight: FontWeight.w700, letterSpacing: .4),
                                         ),
-                                        SizedBox(width: 14.w),
-                                        Icon(Icons.arrow_forward_rounded, color: Colors.white, size: 21.sp),
-                                      ],
-                                    ),
+                                      ),
+                                      Expanded(child: Divider(color: Colors.grey.shade300)),
+                                    ],
                                   ),
-                                ),
 
-                                SizedBox(height: 14.h),
+                                  SizedBox(height: 5.h),
 
-                                Row(
-                                  children: [
-                                    Expanded(child: Divider(color: Colors.grey.shade300)),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                      child: Text(
-                                        "OR CONTINUE WITH",
-                                        style: TextStyle(color: Colors.grey.shade600, fontSize: 10.sp, fontWeight: FontWeight.w700, letterSpacing: .4),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: _SocialButton(text: "G", color: Colors.blue.shade600),
+                                      ),
+                                      SizedBox(width: 12.w),
+                                      const Expanded(
+                                        child: _SocialButton(text: "", color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 5.h),
+
+                                  Center(
+                                    child: TextButton.icon(
+                                      onPressed: () {},
+                                      icon: Icon(Icons.lock_outline_rounded, size: 17.sp, color: Loginpage.royalBlue),
+                                      label: Text(
+                                        "Forgot password?",
+                                        style: TextStyle(color: Loginpage.royalBlue, fontSize: 13.sp, fontWeight: FontWeight.w800),
                                       ),
                                     ),
-                                    Expanded(child: Divider(color: Colors.grey.shade300)),
-                                  ],
-                                ),
-
-                                SizedBox(height: 12.h),
-
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: _SocialButton(text: "G", color: Colors.blue.shade600),
-                                    ),
-                                    SizedBox(width: 12.w),
-                                    const Expanded(
-                                      child: _SocialButton(text: "", color: Colors.black),
-                                    ),
-                                  ],
-                                ),
-
-                                SizedBox(height: 10.h),
-
-                                Center(
-                                  child: TextButton.icon(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.lock_outline_rounded, size: 17.sp, color: Loginpage.royalBlue),
-                                    label: Text(
-                                      "Forgot password?",
-                                      style: TextStyle(color: Loginpage.royalBlue, fontSize: 13.sp, fontWeight: FontWeight.w800),
-                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
 
-                      SizedBox(height: 12.h),
+                      SizedBox(height: 5.h),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
