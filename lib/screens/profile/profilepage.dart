@@ -13,6 +13,34 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget _logoutButton() {
+      return InkWell(
+        onTap: () {
+          Navigator.pop(context);
+          FocusScope.of(context).unfocus();
+        },
+        child: Container(
+          height: 54.h,
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFEEF0),
+            borderRadius: BorderRadius.circular(18.r),
+            border: Border.all(color: const Color(0xFFFFCDD2)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.logout_rounded, color: const Color(0xFFD32F2F), size: 20.sp),
+              SizedBox(width: 8.w),
+              Text(
+                "Logout",
+                style: TextStyle(color: const Color(0xFFD32F2F), fontSize: 15.sp, fontWeight: FontWeight.w900),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: navyDark,
       body: SizedBox(
@@ -324,28 +352,6 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           Icon(Icons.arrow_forward_ios_rounded, color: const Color(0xFF8B96B1), size: 15.sp),
-        ],
-      ),
-    );
-  }
-
-  Widget _logoutButton() {
-    return Container(
-      height: 54.h,
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFEEF0),
-        borderRadius: BorderRadius.circular(18.r),
-        border: Border.all(color: const Color(0xFFFFCDD2)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.logout_rounded, color: const Color(0xFFD32F2F), size: 20.sp),
-          SizedBox(width: 8.w),
-          Text(
-            "Logout",
-            style: TextStyle(color: const Color(0xFFD32F2F), fontSize: 15.sp, fontWeight: FontWeight.w900),
-          ),
         ],
       ),
     );

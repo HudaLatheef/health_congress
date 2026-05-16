@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:health_congress/screens/quick_access/agenda/agenda.dart';
 import 'package:health_congress/screens/profile/profilepage.dart';
+import 'package:health_congress/screens/quick_access/agenda.dart';
+import 'package:health_congress/screens/quick_access/ask_qna.dart';
+import 'package:health_congress/screens/quick_access/exhibitors.dart';
+import 'package:health_congress/screens/quick_access/nametagepage.dart';
+import 'package:health_congress/screens/quick_access/resources.dart';
 import 'package:health_congress/screens/quick_access/speakers.dart';
+import 'package:health_congress/screens/quick_access/venue.dart';
+import 'package:health_congress/screens/quick_access/votingpage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -205,24 +212,6 @@ class HomeContent extends StatelessWidget {
       children: [
         Row(
           children: [
-            /// Back Button
-            GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-                FocusScope.of(context).unfocus();
-              },
-              child: Container(
-                height: 46,
-                width: 46,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(.10),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white.withOpacity(.12)),
-                ),
-                child: const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white, size: 18),
-              ),
-            ),
-
             const SizedBox(width: 16),
 
             /// Title
@@ -315,7 +304,7 @@ class HomeContent extends StatelessWidget {
                     style: TextStyle(color: Colors.white, fontSize: 24, height: 1.15, fontWeight: FontWeight.w900),
                   ),
                   const SizedBox(height: 14),
-                  Text("May 22 - 23, 2026  •  Riyadh, KSA", style: TextStyle(color: Colors.white.withOpacity(.75), fontSize: 13)),
+                  Text("May 22 - 23, 2026  •  Dubai, UAE", style: TextStyle(color: Colors.white.withOpacity(.75), fontSize: 13)),
                 ],
               ),
             ),
@@ -352,14 +341,14 @@ class HomeContent extends StatelessWidget {
 
   Widget _quickAccessGrid() {
     final items = [
-      [Icons.calendar_month_rounded, "Agenda"],
-      [Icons.groups_rounded, "Speakers"],
-      [Icons.badge_outlined, "Name Tag"],
-      [Icons.location_on_outlined, "Venue"],
-      [Icons.bar_chart_rounded, "Voting"],
-      [Icons.chat_bubble_outline_rounded, "Ask Q&A"],
-      [Icons.folder_open_rounded, "Resources"],
-      [Icons.business_center_outlined, "Exhibitors"],
+      [Icons.calendar_month_rounded, "Agenda", AgendaPage()],
+      [Icons.groups_rounded, "Speakers", SpeakersPage()],
+      [Icons.badge_outlined, "Name Tag", NameTagPage()],
+      [Icons.location_on_outlined, "Venue", VenuePage()],
+      [Icons.bar_chart_rounded, "Voting", VotingPage()],
+      [Icons.chat_bubble_outline_rounded, "Ask Q&A", AskQAPage()],
+      [Icons.folder_open_rounded, "Resources", ResourcesPage()],
+      [Icons.business_center_outlined, "Exhibitors", ExhibitorsPage()],
     ];
 
     return GridView.builder(
@@ -370,7 +359,7 @@ class HomeContent extends StatelessWidget {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const SpeakersPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => items[index][2] as Widget));
           },
 
           child: Container(
