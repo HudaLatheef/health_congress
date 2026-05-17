@@ -9,7 +9,9 @@ import 'package:health_congress/screens/quick_access/nametagepage.dart';
 import 'package:health_congress/screens/quick_access/resources.dart';
 import 'package:health_congress/screens/quick_access/speakers.dart';
 import 'package:health_congress/screens/quick_access/venue.dart';
+import 'package:health_congress/screens/quick_access/viewall.dart';
 import 'package:health_congress/screens/quick_access/votingpage.dart';
+import 'package:health_congress/screens/sessions/allsessions.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,16 +45,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: _bottomNav(),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        children: const [HomeContent(), ProfilePage()],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        // disable back navigation
+      },
+      child: Scaffold(
+        bottomNavigationBar: _bottomNav(),
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          children: const [HomeContent(), ProfilePage()],
+        ),
       ),
     );
   }
@@ -178,18 +186,18 @@ class HomeContent extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 22),
-                _searchBar(),
+                _searchBar(context),
 
                 const SizedBox(height: 26),
                 _featuredEvent(),
 
                 const SizedBox(height: 28),
-                _sectionHeader("Quick Access"),
+                _sectionHeader("Quick Access", context),
                 const SizedBox(height: 16),
                 _quickAccessGrid(),
 
                 const SizedBox(height: 28),
-                _sectionHeader("Upcoming Sessions"),
+                _sectionHeader("Upcoming Sessions", context),
                 const SizedBox(height: 16),
 
                 _sessionCard(time: "08:30\nAM", title: "Opening Ceremony", speaker: "Main Auditorium"),
@@ -245,26 +253,40 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _searchBar() {
+  Widget _searchBar(BuildContext context) {
     return Container(
-      height: 54,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: 54.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(.10),
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(18.r),
         border: Border.all(color: Colors.white.withOpacity(.18)),
       ),
       child: Row(
         children: [
-          Icon(Icons.search_rounded, color: Colors.white.withOpacity(.75)),
-          const SizedBox(width: 12),
+          Icon(Icons.search_rounded, color: Colors.white.withOpacity(.75), size: 22.sp),
+
+          SizedBox(width: 12.w),
+
           Expanded(
-            child: Text("Search sessions, speakers, topics...", style: TextStyle(color: Colors.white.withOpacity(.55), fontSize: 14)),
+            child: TextField(
+              onTapOutside: (_) {
+                FocusScope.of(context).unfocus();
+              },
+              style: TextStyle(color: Colors.white, fontSize: 14.sp, fontWeight: FontWeight.w500),
+              cursorColor: Colors.white,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: "Search sessions, speakers, topics...",
+                hintStyle: TextStyle(color: Colors.white.withOpacity(.55), fontSize: 14.sp),
+              ),
+            ),
           ),
+
           Container(
-            padding: const EdgeInsets.all(9),
+            padding: EdgeInsets.all(9.w),
             decoration: const BoxDecoration(color: HomePage.cyan, shape: BoxShape.circle),
-            child: const Icon(Icons.tune_rounded, color: Colors.white, size: 20),
+            child: Icon(Icons.tune_rounded, color: Colors.white, size: 20.sp),
           ),
         ],
       ),
@@ -323,7 +345,7 @@ class HomeContent extends StatelessWidget {
     );
   }
 
-  Widget _sectionHeader(String title) {
+  Widget _sectionHeader(String title, BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -331,9 +353,14 @@ class HomeContent extends StatelessWidget {
           title,
           style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w800),
         ),
-        const Text(
-          "View All  ›",
-          style: TextStyle(color: HomePage.cyan, fontSize: 14, fontWeight: FontWeight.w700),
+        InkWell(
+          onTap: () {
+            title == 'Quick Access' ? Navigator.push(context, MaterialPageRoute(builder: (_) => const QuickAccessViewAllPage())) : Navigator.push(context, MaterialPageRoute(builder: (_) => const UpcomingSessionsPage()));
+          },
+          child: const Text(
+            "View All  ›",
+            style: TextStyle(color: HomePage.cyan, fontSize: 14, fontWeight: FontWeight.w700),
+          ),
         ),
       ],
     );

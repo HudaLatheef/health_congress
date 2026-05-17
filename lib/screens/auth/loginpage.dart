@@ -179,7 +179,7 @@ class _LoginpageState extends State<Loginpage> {
 
                                   SizedBox(height: 10.h),
 
-                                  _PremiumTextField(
+                                  TextField(
                                     controller: emailController,
                                     hint: "Enter your email",
                                     icon: Icons.person_outline_rounded,
@@ -201,7 +201,7 @@ class _LoginpageState extends State<Loginpage> {
 
                                   SizedBox(height: 10.h),
 
-                                  _PremiumTextField(
+                                  TextField(
                                     controller: passwordController,
                                     hint: "Enter your password",
                                     icon: Icons.lock_outline_rounded,
@@ -368,7 +368,7 @@ class _LoginpageState extends State<Loginpage> {
   }
 }
 
-class _PremiumTextField extends StatelessWidget {
+class TextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final IconData icon;
@@ -376,7 +376,7 @@ class _PremiumTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
 
-  const _PremiumTextField({required this.controller, required this.hint, required this.icon, this.obscureText = false, this.keyboardType, this.validator});
+  const TextField({required this.controller, required this.hint, required this.icon, this.obscureText = false, this.keyboardType, this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -428,20 +428,25 @@ class _SocialButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 46.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16.r),
+      child: InkWell(
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFFDDE5F3)),
-      ),
-      child: Center(
-        child: text == "G"
-            ? Text(
-                text,
-                style: TextStyle(color: color, fontSize: 22.sp, fontWeight: FontWeight.w900),
-              )
-            : Icon(Icons.apple, size: 24.sp, color: Colors.black),
+        splashColor: color.withOpacity(.15),
+        highlightColor: color.withOpacity(.08),
+        onTap: () {},
+        child: Ink(
+          height: 46.h,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(color: const Color(0xFFDDE5F3)),
+          ),
+          child: Center(
+            child: Image.asset(text == "G" ? "assets/icons/googleicon.png" : "assets/icons/appleicon.png", width: text == "G" ? 70.w : 70.w, height: text == "G" ? 70.w : 70.w, fit: BoxFit.contain),
+          ),
+        ),
       ),
     );
   }

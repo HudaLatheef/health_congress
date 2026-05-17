@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:health_congress/screens/auth/loginpage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -16,8 +17,9 @@ class ProfilePage extends StatelessWidget {
     Widget _logoutButton() {
       return InkWell(
         onTap: () {
-          Navigator.pop(context);
-          FocusScope.of(context).unfocus();
+          // Navigator.pop(context);
+          // FocusScope.of(context).unfocus();
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const Loginpage()), (route) => false);
         },
         child: Container(
           height: 54.h,
